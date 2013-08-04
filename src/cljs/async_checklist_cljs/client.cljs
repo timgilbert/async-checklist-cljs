@@ -8,6 +8,9 @@
 (defn log [arg]
   (.log js/console arg))
 
+(defn handle-click []
+  (log "Hello, world!"))
+
 ;; (defn click-chan [selector msg-name]
 ;;   (let [rc (chan)]
 ;;     (on ($ "body") :click selector {}
