@@ -2,10 +2,11 @@
   :description "TODO app written in clojurescript with core.async"
   :url "http://github.com/timgilbert"
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [ring "1.2.0"]]
+                 [ring "1.2.0"]
+                 [jayq "2.4.0"]
+                 [io.rkn/core.async "0.1.0-SNAPSHOT"]]
   :plugins [[lein-cljsbuild "0.3.2"]
-            [lein-ring "0.8.6"]
-            [io.rkn/core.async "0.1.0-SNAPSHOT"]]
+            [lein-ring "0.8.6"]]
   :hooks [leiningen.cljsbuild]
   :source-paths ["src/clj"]
   :cljsbuild {
