@@ -1,37 +1,25 @@
-(ns hello-clojurescript
+;; This initial version is trying to be a cljs version of the jquery todos-mvc, see:
+;; https://github.com/tastejs/todomvc/blob/gh-pages/architecture-examples/jquery/js/app.js
+
+(ns async-checklist-cljs
   (:require [cljs.core.async :as async
              :refer [<! >! chan close! sliding-buffer put!]]
-            [jayq.core :as jq :refer [$ css inner html on]]
+            [jayq.core :as jq :refer [$ css inner html bind val]]
+            [jayq.util :as util :refer [log]]
             [clojure.string :as string])
   (:require-macros [cljs.core.async.macros :as m :refer [go alt!]]))
 
-(defn log [arg]
-  (.log js/console arg))
+(def $new-todo ($ :#new-todo))
 
-(defn handle-click []
-  (log "Hello, world!"))
+(defn create-todo [text]
+  (log text))
 
-;; (defn click-chan [selector msg-name]
-;;   (let [rc (chan)]
-;;     (on ($ "body") :click selector {}
-;;         (fn [e]
-;;           (jq/prevent e)
-;;           (put! rc [msg-name (data-from-event e)])))
-;;     rc))
+(defn bind-events []
+  (bind $new-todo :keyup
+      (fn [event]
+        (if (= (.-keyCode event) 13)
+          (create-todo (val $new-todo))))))
 
-;; (defn app-loop [start-state]
-;;   (form-submit-chan "#example1 .new-task-form" :ignore [])
-;;   (let [ new-todo-click         (click-chan "#example1 a.new-todo"        :new-todo)
-;;          cancel-new-form-click  (click-chan "#example1 a.cancel-new-todo" :cancel-new-form)]
-;;     (go
-;;      (loop [state start-state]
-;;        (render-templates state)
-;;        (<! new-todo-click)
-;;        (render-templates (assoc state :mode :add-todo-form))
-;;        (<! cancel-new-form-click)
-;;        (recur (dissoc state :mode))))))
+(log "Hello, world!")
 
-
-(def clickable (.getElementById js/document "clickable"))
-
-(.addEventListener clickable "click" handle-click)
+(bind-events)
